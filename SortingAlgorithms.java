@@ -177,4 +177,15 @@ public class SortingAlgorithms {
         return (number / (int) Math.pow(K, d)) % K;
     }
     
+    //Implementación de Bubble Sort
+    private static void bubbleSort(List<Element> elements){
+        int n = elements.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++){
+                if (elements.get(j).number > elements.get(j + 1).number){
+                    Collections.swap(elements, j, j + 1);
+                }
+            }
+        }
+    }
 }
