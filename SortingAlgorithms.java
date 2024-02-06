@@ -137,4 +137,44 @@ public class SortingAlgorithms {
         Collections.swap(elements, i + 1, high);
         return i + 1;
     }
+
+    //Implementación de Radix Sort
+    private static void radixSort(List<Element> elements) {
+        final int K = 10; //Número de cubos por ronda
+        int D = (int) Math.ceil(Math.log(elements.stream().mapToInt(e -> e.number + 1).max().orElse(1)) / Math.log(K));
+
+        List<Element> tempArray = new ArrayList<>(elements);
+
+        for (int d = 0; d < D; d++) {
+            kSortCopy(elements, 0, elements.size() - 1);
+        }
+    }
+
+    private static void kSortCopy(List<Element> elements, List<Element> tempArray, int K, int d) {
+        int [] count = new int[K];
+        int n = elements.size();
+
+        for (int i = 0; i < n; i++){
+            count[key(elements.get(i).number, K, d)]++;
+        }
+
+        int sum = 0;
+        for (int k = 0; k < K; k++){
+            int next = sum + count[k];
+            count[k] = sum;
+            sum = next;
+        }
+
+        for (int i = 0; i < n; i++){
+            tempArray.set(count[key(elements.get(i).number, K, d)]++, elements.get(i));
+        }
+
+        elements.clear();
+        elements.addAll(tempArray);
+    }
+
+    private static int key(int number, int K, int d){
+        return (number / (int) Math.pow(K, d)) % K;
+    }
+    
 }
