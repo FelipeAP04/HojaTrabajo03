@@ -53,23 +53,15 @@ public class SortingAlgorithms {
         return elements;
     }
 
-    // Método para cargar datos desde un archivo externo
-    private static List<Element> loadDataFromFile(String filename) {
-        List<Element> elements = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split("\\s+");
-                int position = Integer.parseInt(data[0]);
-                int number = Integer.parseInt(data[1]);
-                elements.add(new Element(position, number));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    // Método para imprimir los resultados después de cada algoritmo
+    private static void printResults(List<Element> elements, String algorithmName) {
+        System.out.println("\n" + algorithmName + " Results:");
+        for (Element element : elements) {
+            System.out.println("Position: " + element.position + ", Number: " + element.number);
         }
-        return elements;
     }
 
-    // Gnome Sort
+    // Implementación de Gnome Sort
     private static void gnomeSort(List<Element> elements) {
         int i = 1;
         while (i < elements.size()) {
@@ -84,7 +76,7 @@ public class SortingAlgorithms {
         }
     }
 
-    // Merge Sort
+    // Implementación de Merge Sort
     private static void mergeSort(List<Element> elements) {
         if (elements.size() <= 1) {
             return;
@@ -113,8 +105,8 @@ public class SortingAlgorithms {
             elements.set(k++, right.get(j++));
         }
     }
-    
-    //Implementación de Quick Sort
+
+    // Implementación de Quick Sort
     private static void quickSort(List<Element> elements, int low, int high) {
         if (low < high) {
             int partitionIndex = partition(elements, low, high);
@@ -138,34 +130,35 @@ public class SortingAlgorithms {
         return i + 1;
     }
 
-    //Implementación de Radix Sort
+    // Implementación de Radix Sort
     private static void radixSort(List<Element> elements) {
-        final int K = 10; //Número de cubos por ronda
+        final int K = 10; // Número de cubos por ronda
         int D = (int) Math.ceil(Math.log(elements.stream().mapToInt(e -> e.number + 1).max().orElse(1)) / Math.log(K));
-
+        
         List<Element> tempArray = new ArrayList<>(elements);
 
         for (int d = 0; d < D; d++) {
-            kSortCopy(elements, 0, elements.size() - 1);
+            kSortCopy(elements, tempArray, K, d);
+            Collections.swap(elements, 0, elements.size() - 1);
         }
     }
 
     private static void kSortCopy(List<Element> elements, List<Element> tempArray, int K, int d) {
-        int [] count = new int[K];
+        int[] count = new int[K];
         int n = elements.size();
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             count[key(elements.get(i).number, K, d)]++;
         }
 
         int sum = 0;
-        for (int k = 0; k < K; k++){
+        for (int k = 0; k < K; k++) {
             int next = sum + count[k];
             count[k] = sum;
             sum = next;
         }
 
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             tempArray.set(count[key(elements.get(i).number, K, d)]++, elements.get(i));
         }
 
@@ -173,16 +166,16 @@ public class SortingAlgorithms {
         elements.addAll(tempArray);
     }
 
-    private static int key(int number, int K, int d){
+    private static int key(int number, int K, int d) {
         return (number / (int) Math.pow(K, d)) % K;
     }
-    
-    //Implementación de Bubble Sort
-    private static void bubbleSort(List<Element> elements){
+
+    // Implementación de Bubble Sort
+    private static void bubbleSort(List<Element> elements) {
         int n = elements.size();
         for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++){
-                if (elements.get(j).number > elements.get(j + 1).number){
+            for (int j = 0; j < n - i - 1; j++) {
+                if (elements.get(j).number > elements.get(j + 1).number) {
                     Collections.swap(elements, j, j + 1);
                 }
             }
