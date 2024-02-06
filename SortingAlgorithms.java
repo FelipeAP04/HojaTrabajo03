@@ -83,4 +83,34 @@ public class SortingAlgorithms {
             }
         }
     }
+
+    // Merge Sort
+    private static void mergeSort(List<Element> elements) {
+        if (elements.size() <= 1) {
+            return;
+        }
+        int mid = elements.size() / 2;
+        List<Element> left = new ArrayList<>(elements.subList(0, mid));
+        List<Element> right = new ArrayList<>(elements.subList(mid, elements.size()));
+
+        mergeSort(left);
+        mergeSort(right);
+
+        int i = 0, j = 0, k = 0;
+        while (i < left.size() && j < right.size()) {
+            if (left.get(i).number < right.get(j).number) {
+                elements.set(k++, left.get(i++));
+            } else {
+                elements.set(k++, right.get(j++));
+            }
+        }
+
+        while (i < left.size()) {
+            elements.set(k++, left.get(i++));
+        }
+
+        while (j < right.size()) {
+            elements.set(k++, right.get(j++));
+        }
+    }
 }
