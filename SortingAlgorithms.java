@@ -52,4 +52,35 @@ public class SortingAlgorithms {
         }
         return elements;
     }
+
+    // Método para cargar datos desde un archivo externo
+    private static List<Element> loadDataFromFile(String filename) {
+        List<Element> elements = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                String[] data = scanner.nextLine().split("\\s+");
+                int position = Integer.parseInt(data[0]);
+                int number = Integer.parseInt(data[1]);
+                elements.add(new Element(position, number));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return elements;
+    }
+
+    // Gnome Sort
+    private static void gnomeSort(List<Element> elements) {
+        int i = 1;
+        while (i < elements.size()) {
+            if (i == 0 || elements.get(i).number >= elements.get(i - 1).number) {
+                i++;
+            } else {
+                Collections.swap(elements, i, i - 1);
+                if (i > 1) {
+                    i--;
+                }
+            }
+        }
+    }
 }
