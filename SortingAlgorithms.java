@@ -113,4 +113,28 @@ public class SortingAlgorithms {
             elements.set(k++, right.get(j++));
         }
     }
+    
+    //Implementación de Quick Sort
+    private static void quickSort(List<Element> elements, int low, int high) {
+        if (low < high) {
+            int partitionIndex = partition(elements, low, high);
+            quickSort(elements, low, partitionIndex - 1);
+            quickSort(elements, partitionIndex + 1, high);
+        }
+    }
+
+    private static int partition(List<Element> elements, int low, int high) {
+        int pivot = elements.get(high).number;
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (elements.get(j).number <= pivot) {
+                i++;
+                Collections.swap(elements, i, j);
+            }
+        }
+
+        Collections.swap(elements, i + 1, high);
+        return i + 1;
+    }
 }
