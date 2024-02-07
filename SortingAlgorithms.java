@@ -1,10 +1,28 @@
+/**
+ * Clase Sorting Algorithms
+ * Felipe Aguilar - 23195
+ * Fernando Rueda - 23748
+ * Clase que implementa varios algoritmos de ordenamiento.
+ * Fecha de creación: 06/02/2024
+ * Fecha de última modificación: 06/02/2024
+ */
 import java.io.*;
 import java.util.*;
 
+/**
+ * Representa un elemento con una posición y un número, utilizado para demostrar diferentes algoritmos de ordenamiento.
+ * 
+ */
 class Element {
     int position;
     int number;
 
+    /**
+     * Constructor para crear un nuevo elemento.
+     * 
+     * @param position La posición del elemento.
+     * @param number El número asociado al elemento.
+     */
     public Element(int position, int number) {
         this.position = position;
         this.number = number;
@@ -37,7 +55,13 @@ public class SortingAlgorithms {
         printResults(elements, "Bubble Sort");
     }
 
-    // Método para cargar datos desde un archivo externo
+    /** 
+     * Método para cargar datos desde un archivo externo.
+     * 
+     * @param filename El nombre del archivo desde donde se cargarán losd datos.
+     * @return Una lista de {@link Element} con los dtos cargados desde el archivo. 
+     * @throws FileNotFoundException Si el archivo especificado no existe.
+    */
     private static List<Element> loadDataFromFile(String filename) {
         List<Element> elements = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
@@ -53,7 +77,12 @@ public class SortingAlgorithms {
         return elements;
     }
 
-    // Método para imprimir los resultados después de cada algoritmo
+    /**
+     * Método para imprimir los resultados después de cada algoritmo.
+     * 
+     * @param elements Lista de {@link Elements} que contiene los elementos ordenados.
+     * @param algorithmName Nombre del algoritmo de ordenamiento que se ha aplicado a los elementos.
+    */
     private static void printResults(List<Element> elements, String algorithmName) {
         System.out.println("\n" + algorithmName + " Results:");
         for (Element element : elements) {
@@ -61,7 +90,11 @@ public class SortingAlgorithms {
         }
     }
 
-    // Implementación de Gnome Sort
+    /**
+     * Ordena una lista de elementos utilizando el algorimto Gnome Sort.
+     * 
+     * @param elements Lista de elementos a ordenar.
+     */
     private static void gnomeSort(List<Element> elements) {
         int i = 1;
         while (i < elements.size()) {
@@ -76,7 +109,11 @@ public class SortingAlgorithms {
         }
     }
 
-    // Implementación de Merge Sort
+    /**
+     * Ordena una lista de elementos utilizando el algoritmo Merge Sort.
+     * 
+     * @param elements Lista de elementos a ordenar.
+     */
     private static void mergeSort(List<Element> elements) {
         if (elements.size() <= 1) {
             return;
@@ -106,7 +143,13 @@ public class SortingAlgorithms {
         }
     }
 
-    // Implementación de Quick Sort
+    /**
+     * Ordena un alista de elementos utilizando el algoritmo Quick Sort.
+     * 
+     * @param elements Lista de elementos a ordenar.
+     * @param low Índice inicial de la sección de la lista a ordenar.
+     * @param high Índice final de la sección de la lista a ordenar.
+     */
     private static void quickSort(List<Element> elements, int low, int high) {
         if (low < high) {
             int partitionIndex = partition(elements, low, high);
@@ -115,6 +158,13 @@ public class SortingAlgorithms {
         }
     }
 
+    /**
+     * Realiza la partición de una lista de elementos para el algorirmo de Quick Sort.
+     * @param elements La lista de elementos {@link Element} a particionar.
+     * @param low El índice inicial desde donde se debe comenzar a particionar.
+     * @param high El índice final hasta donde se debe particionar.
+     * @return El índice del nuevo pivote después de la partición.
+     */
     private static int partition(List<Element> elements, int low, int high) {
         int pivot = elements.get(high).number;
         int i = low - 1;
@@ -130,7 +180,11 @@ public class SortingAlgorithms {
         return i + 1;
     }
 
-    // Implementación de Radix Sort
+    /**
+     * Ordena una lista de elementos utilizando el algorimto Radix Sort.
+     * 
+     * @param elements Lista de elementos a ordenar.
+     */
     private static void radixSort(List<Element> elements) {
         final int K = 10; // Número de cubos por ronda
         int D = (int) Math.ceil(Math.log(elements.stream().mapToInt(e -> e.number + 1).max().orElse(1)) / Math.log(K));
@@ -143,6 +197,14 @@ public class SortingAlgorithms {
         }
     }
 
+    /**
+     * Realiza una pasada del ordenamiento Radix Sort en la lista de elementos.
+     * 
+     * @param elements La lista original de elementos {@link Element} a ordenar.
+     * @param tempArray Una lista temporal usada para almacenar los elementos ordenados en esta pasada.
+     * @param K El número de cubetas (buckets) utilizado para el ordenamiento, que corresponde al rango de valores posibles para cada dígito.
+     * @param d La cigra significativa actual por la cual se está ordenando, empezando por 0 para el dígito menos significativo.
+     */
     private static void kSortCopy(List<Element> elements, List<Element> tempArray, int K, int d) {
         int[] count = new int[K];
         int n = elements.size();
@@ -166,11 +228,22 @@ public class SortingAlgorithms {
         elements.addAll(tempArray);
     }
 
+    /**
+     * Calcula la clave (key) para el ordenamiento Radix basándose en la cifra significativa 'd' de un número.
+     * @param number El número del cual se calcula la clave.
+     * @param K El núero de cubetas (buckets) utilizado en el ordenamiento, que corresponde al rango de valores posibles para cada dígito.
+     * @param d La cigra significativa actual por la cual se está calculando la llave.
+     * @return La clave calculada, que indica la cubeta correspondiente para el número dado y la cifra significativa 'd'
+     */
     private static int key(int number, int K, int d) {
         return (number / (int) Math.pow(K, d)) % K;
     }
 
-    // Implementación de Bubble Sort
+    /**
+     * Ordena una lista de elementos utilizando el algoritmo Bubble Sort.
+     * 
+     * @param elements Lista de elementos a ordenar.
+     */
     private static void bubbleSort(List<Element> elements) {
         int n = elements.size();
         for (int i = 0; i < n - 1; i++) {
