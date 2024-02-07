@@ -120,7 +120,7 @@ public class SortingAlgorithms {
      * 
      * @param elements Lista de elementos a ordenar.
      */
-    private static void gnomeSort(List<Element> elements) {
+    public static void gnomeSort(List<Element> elements) {
         int i = 1;
         while (i < elements.size()) {
             if (i == 0 || elements.get(i).number >= elements.get(i - 1).number) {
@@ -139,7 +139,7 @@ public class SortingAlgorithms {
      * 
      * @param elements Lista de elementos a ordenar.
      */
-    private static void mergeSort(List<Element> elements) {
+    public static void mergeSort(List<Element> elements) {
         if (elements.size() <= 1) {
             return;
         }
@@ -175,7 +175,7 @@ public class SortingAlgorithms {
      * @param low Índice inicial de la sección de la lista a ordenar.
      * @param high Índice final de la sección de la lista a ordenar.
      */
-    private static void quickSort(List<Element> elements, int low, int high) {
+    public static void quickSort(List<Element> elements, int low, int high) {
         if (low < high) {
             int partitionIndex = partition(elements, low, high);
             quickSort(elements, low, partitionIndex - 1);
@@ -210,15 +210,18 @@ public class SortingAlgorithms {
      * 
      * @param elements Lista de elementos a ordenar.
      */
-    private static void radixSort(List<Element> elements) {
+    public static void radixSort(List<Element> elements) {
         final int K = 10; // Número de cubos por ronda
         int D = (int) Math.ceil(Math.log(elements.stream().mapToInt(e -> e.number + 1).max().orElse(1)) / Math.log(K));
         
         List<Element> tempArray = new ArrayList<>(elements);
 
         for (int d = 0; d < D; d++) {
+            Collections.fill(tempArray, null);
             kSortCopy(elements, tempArray, K, d);
-            Collections.swap(elements, 0, elements.size() - 1);
+            
+            elements.clear();
+            elements.addAll(tempArray);
         }
     }
 
@@ -269,7 +272,7 @@ public class SortingAlgorithms {
      * 
      * @param elements Lista de elementos a ordenar.
      */
-    private static void bubbleSort(List<Element> elements) {
+    public static void bubbleSort(List<Element> elements) {
         int n = elements.size();
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
