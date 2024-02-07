@@ -9,6 +9,8 @@
 import java.io.*;
 import java.util.*;
 
+import javax.lang.model.util.Elements;
+
 /**
  * Representa un elemento con una posición y un número, utilizado para demostrar diferentes algoritmos de ordenamiento.
  * 
@@ -31,8 +33,22 @@ class Element {
 
 public class SortingAlgorithms {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Presione cualquier tecla para comenzar");
+        String start = scanner.nextLine();
+
+        List<Element> elements = new ArrayList<>();
+        final int totalNumbers = 3000;
+        final int blockSize = 11;
+
+        // Leer bloques de números hasta alcanzar un total de 3000 números
+        for (int i = 0; i < totalNumbers; i += blockSize) {
+            int remaining = totalNumbers - i;
+            int blockToRead = Math.min(blockSize, remaining);
+
+
         // Cargar datos desde el archivo externo
-        List<Element> elements = loadDataFromFile("numeros.txt");
+        List<Element> blockElements = loadDataFromFile("numeros.txt", i, blockToRead);
 
         // Algoritmo Gnome Sort
         gnomeSort(elements);
@@ -53,6 +69,9 @@ public class SortingAlgorithms {
         // Algoritmo Bubble Sort
         bubbleSort(elements);
         printResults(elements, "Bubble Sort");
+
+        elements.addAll(blockElements);
+        }
     }
 
     /** 
@@ -62,10 +81,15 @@ public class SortingAlgorithms {
      * @return Una lista de {@link Element} con los dtos cargados desde el archivo. 
      * @throws FileNotFoundException Si el archivo especificado no existe.
     */
-    private static List<Element> loadDataFromFile(String filename) {
+    private static List<Element> loadDataFromFile(String filename, int startIndex, int blockSize) {
         List<Element> elements = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
-            while (scanner.hasNextLine()) {
+            for (int i = 0; i < startIndex; i++) {
+                scanner.nextLine();
+            }
+
+            // Leer el bloque de números
+            for (int i = 0; i < blockSize && scanner.hasNextLine(); i++) {
                 String[] data = scanner.nextLine().split("\\s+");
                 int position = Integer.parseInt(data[0]);
                 int number = Integer.parseInt(data[1]);
@@ -75,6 +99,7 @@ public class SortingAlgorithms {
             e.printStackTrace();
         }
         return elements;
+
     }
 
     /**
