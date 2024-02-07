@@ -1,0 +1,2 @@
+porque escojimos bubble sort
+El bubble sort es de los mas basicos y faciles de entender entre todos los sorts que hay, tambien su implementacion es tanto importante como facil para aprender a hacer los demas algoritmos, por esto escojimos implimentarlo en el programa.
